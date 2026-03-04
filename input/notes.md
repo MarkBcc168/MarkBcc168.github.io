@@ -54,3 +54,7 @@ Slides accompanying a 10-minute presentation given at
 the MIT Math Department Reception during the parents weekend 
 in Fall 2025. Intended for general scientific audience.
 
+- {{notes("Examples of Descent")}} ([pdf](static/notes/intro_descent_stage.pdf))
+<br>
+Notes accompanying the March 5, 2026 talk for [MIT STAGE Seminar](https://math.mit.edu/nt/stage.html).
+It cover examples of descent obstruction and weak Mordell-Weil theorem. 
