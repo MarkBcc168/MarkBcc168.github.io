@@ -1,4 +1,6 @@
 import re 
+from datetime import date
+
 
 def hook_preconvert_header():
     for p in pages:
@@ -16,11 +18,37 @@ def hl(text: str) -> str:
     link = link_from_text(text)
     return f'<a id="{link}"></a>{text}<a href="#{link}" class="hash-link"><i class="fa fa-link"></i></a>'
 
-def paper(text: str, authors: str="") -> str:
+def paper(text: str, coauthors: list[str]=[], links: dict[str, str] = {}, summary: str="",
+          abstract: str="") -> str:
     link = link_from_text(text)
-    result = f'<a id="{link}"></a><span id=paper-header>{text}<a href="#{link}" class="hash-link"><i class="fa fa-link"></i></a></span>'
-    if(authors != ""):
-        result += "<br>" + f"(with {authors})"
+    result = '<details><summary>'
+    result += '<div style="display: flex;">'
+    result += '<div style="flex-grow: 1;">'
+    result += f'<a id="{link}"></a><span id=paper-header>{text}<a href="#{link}" class="hash-link"><i class="fa fa-link"></i></a></span>'
+    if(len(coauthors) > 0):
+        coauthors_str = ""
+        for i in range(len(coauthors)-1):
+            coauthors_str += coauthors[i] + ", "
+        if(len(coauthors) > 1):
+            coauthors_str += " and "
+        coauthors_str += coauthors[-1]
+        result += "<br>" + f"(with {coauthors_str})"
+    result += "</div>"
+    if("arXiv" in links):
+        result += '<div style="width: fit-content; align-content:center;">'
+        result += f'(<a href={links["arXiv"]}>arXiv</a>)'
+        result += '</div>'
+    elif("pdf" in links):
+        result += '<div style="width: fit-content; align-content:center;">'
+        result += f'(<a href={links["pdf"]}>pdf</a>)'
+        result += '</div>'
+    result += '</div>'
+    result += '</summary>'
+    result += summary
+    result += "<p><b>Abstract</b><br>"
+    result += abstract + "</p>"
+    result += "<p>" + " ".join(f'(<a href={link}>{text}</a>)' for text, link in links.items()) + "</p>"
+    result += '</details> <hr>'
     return result
 
 def notes(text: str) -> str:
