@@ -98,7 +98,8 @@ During my undergraduate years,
 I was actively involved in HMMT as a **Problem Staff** (2022-23),
 **Problem Czar** (2023-24), **Problem Czar Advisor** (2024-25),
 and **Historian** (2025-26).
-Over four years, <b>113</b> of my problems were accepted into contest.
+Over four years, **113** of my problems were accepted into contest.
+All problems can be found at the [HMMT Archive](https://www.hmmt.org/www/archive/problems).
 Below are some of my favorite problems.
 
 ### HMIC 2026 P5

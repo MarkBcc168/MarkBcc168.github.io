@@ -6,7 +6,7 @@ menu-position: 1
 Here is a list of my papers and preprints. 
 Click on each title to view the abstract.
 
-Last updated **{{date.today().strftime("%B %d, %Y")}}**.
+Last updated: **{{date.today().strftime("%B %d, %Y")}}**.
 
 <hr>
 {{paper("Extremal $t$-intersecting Families of Permutations for Large $t$", 
