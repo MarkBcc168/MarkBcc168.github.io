@@ -13,7 +13,8 @@ I'm interested in pursuing math research in Number Theory and/or Combinatorics.
 <br><br>
 You can reach me via email: <b>mark_[lastname] [at] g.harvard [dot] edu</b>.
 <br><br>
-<h3> <a href=static/cv/pitchayut-cv.pdf>View my CV</a> </h3>
+<h3 style="display: inline;"> <a href=static/cv/pitchayut-cv.pdf>View my CV</a> </h3>
+(Last updated: <b>{{last_updated("input/static/cv/pitchayut-cv.pdf")}}</b>)
 </div>
 <div class="column" style="width: 30%;">
 <img src=static/photo.jpg width=225px>

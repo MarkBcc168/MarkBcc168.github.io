@@ -1,5 +1,14 @@
 import re 
 from datetime import date
+from datetime import datetime
+from pathlib import Path
+
+
+def last_updated(path: str) -> str:
+    file_path = Path(path)
+    timestamp = file_path.stat().st_mtime
+    modified_date = datetime.fromtimestamp(timestamp)
+    return modified_date.strftime("%B %d, %Y")
 
 
 def hook_preconvert_header():

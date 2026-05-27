@@ -6,13 +6,15 @@ menu-position: 1
 Here is a list of my papers and preprints. 
 Click on each title to view the abstract.
 
-Last updated: **{{date.today().strftime("%B %d, %Y")}}**.
+Last updated: **{{last_updated("input/research.md")}}**.
 
 <hr>
 {{paper("Extremal $t$-intersecting Families of Permutations for Large $t$", 
     [], 
-    {"arXiv": "https://arxiv.org/abs/2605.26051"},
-    "<p>Research conducted through the <a href=https://sites.google.com/view/gallian-reu/home>Duluth REU program</a> in 2025.</p>",
+    {"arXiv": "https://arxiv.org/abs/2605.26051",
+    "JMM": "https://meetings.ams.org/math/jmm2026/meetingapp.cgi/Paper/55074",
+    "Slides": "static/slides/permutations_slides.pdf"},
+    "<p>Research conducted through the <a href=https://sites.google.com/view/gallian-reu/home>Duluth REU program</a> in 2025. A partial result was presented at JMM 2026.</p>",
     "A set of permutations of $\\{1,2,\\dots,n\\}$ is $t$-intersecting if any two permutations agree on at least $t$ inputs. A recent work by Kupavskii, in the spirit of the Erdős--Ko--Rado Theorem, shows that for all $t\\leq n-O\\left(\\frac{n\\log\\log n}{\\log n}\\right)$, every $t$-intersecting family of permutations of $\\{1,2,\\dots,n\\}$ with the maximum size must be isomorphic to the set $$\\mathcal A_k = \\{\\sigma : \\sigma(i)=i\\text{ for at least } t+k \\text{ indices } i\\in\\{1,2,\\dots,t+2k\\}\\}$$ for some $k$. By refining Kupavskii's spread approximation technique, we prove that this conclusion holds for a wider range of $t\\leq n-n^{5/7+\\varepsilon}$."
 )     
 }}
@@ -28,11 +30,13 @@ Last updated: **{{date.today().strftime("%B %d, %Y")}}**.
 {{paper("Gluing Genus 1 and Genus 2 Curves Along $\ell$-torsion",
     ["Noah Walsh"],
     {"arXiv": "https://arxiv.org/abs/2508.07331",
-    "Conference": "https://lucant.org/",
+    "LuCaNT": "https://lucant.org/",
+    "JMM": "https://meetings.ams.org/math/jmm2026/meetingapp.cgi/Paper/55066",
     "LuCaNT Slides": "https://app.icerm.brown.edu/assets/515/9289/9289_5350_Saengrungkongka_071020251600_Slides.pdf",
-    "Recording": "https://icerm.brown.edu/video_archive/4213"},
+    "JMM Slides": "static/slides/gluing_curves_slides.pdf",
+    "LuCaNT Recording": "https://icerm.brown.edu/video_archive/4213"},
     "<p>in <i>LMFDB, Computation, and Number Theory (LuCaNT 2025)</i>, July 7-11, 2025.</p>" +
-    "<p>Research conducted through the MIT Math Department's <a href=https://math.mit.edu/research/undergraduate/spur/index.html>SPUR program</a>. My mentors were Sam Schiavone and Edgar Costa. I presented this paper in LuCaNT 2025.</p>",
+    "<p>Research conducted through the MIT Math Department's <a href=https://math.mit.edu/research/undergraduate/spur/index.html>SPUR program</a>. My mentors were Sam Schiavone and Edgar Costa. I presented this paper in LuCaNT 2025 and in JMM 2026.</p>",
     "Let $Y$ be a genus $2$ curve over $\\mathbb Q$. We provide a method to systematically search for possible candidates of a prime $\\ell\\geq 3$ and a genus $1$ curve $X$ for which there exists a genus $3$ curve $Z$ over $\\mathbb Q$ whose Jacobian is, up to quadratic twist, $(\\ell, \\ell, \\ell)$-isogenous to the product of Jacobians of $X$ and $Y$, building on the work by Hanselman, Schiavone, and Sijsling for $\\ell=2$. We find several such pairs $(X,Y)$ for prime $\\ell$ up to $13$. We also improve their numerical gluing algorithm, allowing us to successfully glue genus $1$ and genus $2$ curves along their $13$-torsion."
 )
 }}
