@@ -38,7 +38,8 @@
         }
         body {
             font-family: Linux Libertine;
-            width: 800px;
+            max-width: 800px;
+            width: 90%;
             margin: 1em auto;
             color: #2e3436;
         }
@@ -153,7 +154,29 @@
             border: 0;
             border-top: 1px solid rgb(192, 192, 192);
         }
+        button{
+            font-family: Linux Libertine;
+            background-color: rgb(255,255,255);
+            border: 1px solid rgb(192,192,192);
+        }
+        button:hover{
+            font-family: Linux Libertine;
+            background-color: rgb(0,0,0,0.1);
+        }
     </style>
+    <script>
+    function expand_all(shouldExpand){
+        let detailsElements = document.querySelectorAll("details");
+        
+        detailsElements = [...detailsElements];
+
+        if (shouldExpand) {
+            detailsElements.map(item => item.setAttribute("open", shouldExpand));
+        } else {
+            detailsElements.map(item => item.removeAttribute("open"));
+        }
+    };
+    </script>
 </head>
 <body>
     <div id="box">
@@ -170,7 +193,9 @@
 <p>Here is a list of my papers and preprints. 
 Click on each title to view the abstract.</p>
 <p>Last updated: <strong>May 27, 2026</strong>.</p>
-<details id="paper-header"><summary><div style="display: flex;"><div style="flex-grow: 1;"><a id="extremal_(t)-intersecting_families_of_permutations_for_large_(t)"></a><span id=paper-header>Extremal \(t\)-intersecting Families of Permutations for Large \(t\)<a href="#extremal_(t)-intersecting_families_of_permutations_for_large_(t)" class="hash-link"><i class="fa fa-link"></i></a></span></div><div style="width: fit-content; align-content:center;">(<a href=https://arxiv.org/abs/2605.26051>arXiv</a>)</div></div></summary><p>Research conducted through the <a href=https://sites.google.com/view/gallian-reu/home>Duluth REU program</a> in 2025. A partial result was presented at JMM 2026.</p><p><b>Abstract</b><br>A set of permutations of \(\{1,2,\dots,n\}\) is \(t\)-intersecting if any two permutations agree on at least \(t\) inputs. A recent work by Kupavskii, in the spirit of the Erdős--Ko--Rado Theorem, shows that for all \(t\leq n-O\left(\frac{n\log\log n}{\log n}\right)\), every \(t\)-intersecting family of permutations of \(\{1,2,\dots,n\}\) with the maximum size must be isomorphic to the set \[\mathcal A_k = \{\sigma : \sigma(i)=i\text{ for at least } t+k \text{ indices } i\in\{1,2,\dots,t+2k\}\}\] for some \(k\). By refining Kupavskii's spread approximation technique, we prove that this conclusion holds for a wider range of \(t\leq n-n^{5/7+\varepsilon}\).</p><p>(<a href=https://arxiv.org/abs/2605.26051>arXiv</a>) (<a href=https://meetings.ams.org/math/jmm2026/meetingapp.cgi/Paper/55074>JMM</a>) (<a href=static/slides/permutations_slides.pdf>Slides</a>)</p></details>
+<p><button onclick="expand_all(true)">Expand all</button>
+<button onclick="expand_all(false)">Collapse all</button></p>
+<details id="paper-header"><summary><div style="display: flex;"><div style="flex-grow: 1;"><a id="extremal_(t)-intersecting_families_of_permutations_for_large_(t)"></a><span id=paper-header>Extremal \(t\)-intersecting Families of Permutations for Large \(t\)<a href="#extremal_(t)-intersecting_families_of_permutations_for_large_(t)" class="hash-link"><i class="fa fa-link"></i></a></span></div><div style="width: fit-content; align-content:center;">(<a href=https://arxiv.org/abs/2605.26051>arXiv</a>)</div></div></summary><p>Research conducted through the <a href=https://sites.google.com/view/gallian-reu/home>Duluth REU program</a> in 2025. I present a partial result at JMM 2026.</p><p><b>Abstract</b><br>A set of permutations of \(\{1,2,\dots,n\}\) is \(t\)-intersecting if any two permutations agree on at least \(t\) inputs. A recent work by Kupavskii, in the spirit of the Erdős--Ko--Rado Theorem, shows that for all \(t\leq n-O\left(\frac{n\log\log n}{\log n}\right)\), every \(t\)-intersecting family of permutations of \(\{1,2,\dots,n\}\) with the maximum size must be isomorphic to the set \[\mathcal A_k = \{\sigma : \sigma(i)=i\text{ for at least } t+k \text{ indices } i\in\{1,2,\dots,t+2k\}\}\] for some \(k\). By refining Kupavskii's spread approximation technique, we prove that this conclusion holds for a wider range of \(t\leq n-n^{5/7+\varepsilon}\).</p><p>(<a href=https://arxiv.org/abs/2605.26051>arXiv</a>) (<a href=https://meetings.ams.org/math/jmm2026/meetingapp.cgi/Paper/55074>JMM</a>) (<a href=static/slides/permutations_slides.pdf>Slides</a>)</p></details>
 
 <details id="paper-header"><summary><div style="display: flex;"><div style="flex-grow: 1;"><a id="improved_bounds_on_rainbow_(k)-partite_matching"></a><span id=paper-header>Improved Bounds on Rainbow \(k\)-partite Matching<a href="#improved_bounds_on_rainbow_(k)-partite_matching" class="hash-link"><i class="fa fa-link"></i></a></span></div><div style="width: fit-content; align-content:center;">(<a href=https://arxiv.org/abs/2508.07331>arXiv</a>)</div></div></summary><p>Research conducted through the <a href=https://sites.google.com/view/gallian-reu/home>Duluth REU program</a> in 2025.</p><p><b>Abstract</b><br>Let \(n\), \(s\), and \(k\) be positive integers. We say that a sequence \(f_1, \dots,f_s\) of nonnegative integers is <i>satisfying</i> if for any collection of \(s\) families \(\mathcal F_1,\dots,\mathcal F_s\subseteq [n]^k\) such that \(|\mathcal F_i|=f_i\) for all \(i\), there exists a rainbow matching, i.e., a list of pairwise disjoint tuples  \(F_1\in\mathcal F_1\), \(\dots\), \(F_s\in\mathcal F_s\). We investigate the question, posed by Kupavskii  and Popova, of determining the smallest \(c=c(n,s,k)\) such that the arithmetic progression  \(c\), \(n^{k-1}+c\), \(2n^{k-1}+c\), \(\dots\), \((s-1)n^{k-1}+c\) is satisfying. We prove that the sequence is satisfying for \(c=\Omega_k(\max(s^2n^{k-2}, sn^{k-3/2}\sqrt{\log s}))\), improving the previous result by Kupavskii and Popova. We also study satisfying sequences for \(k=2\) using the polynomial method, extending the previous result by Kupavskii and Popova  to when \(n\) is not prime.</p><p>(<a href=https://arxiv.org/abs/2508.07331>arXiv</a>)</p></details>
 

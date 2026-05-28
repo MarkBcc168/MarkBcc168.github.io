@@ -8,12 +8,15 @@ Click on each title to view the abstract.
 
 Last updated: **{{last_updated("input/research.md")}}**.
 
+<button onclick="expand_all(true)">Expand all</button>
+<button onclick="expand_all(false)">Collapse all</button>
+
 {{paper("Extremal $t$-intersecting Families of Permutations for Large $t$", 
     [], 
     {"arXiv": "https://arxiv.org/abs/2605.26051",
     "JMM": "https://meetings.ams.org/math/jmm2026/meetingapp.cgi/Paper/55074",
     "Slides": "static/slides/permutations_slides.pdf"},
-    "<p>Research conducted through the <a href=https://sites.google.com/view/gallian-reu/home>Duluth REU program</a> in 2025. A partial result was presented at JMM 2026.</p>",
+    "<p>Research conducted through the <a href=https://sites.google.com/view/gallian-reu/home>Duluth REU program</a> in 2025. I present a partial result at JMM 2026.</p>",
     "A set of permutations of $\\{1,2,\\dots,n\\}$ is $t$-intersecting if any two permutations agree on at least $t$ inputs. A recent work by Kupavskii, in the spirit of the Erdős--Ko--Rado Theorem, shows that for all $t\\leq n-O\\left(\\frac{n\\log\\log n}{\\log n}\\right)$, every $t$-intersecting family of permutations of $\\{1,2,\\dots,n\\}$ with the maximum size must be isomorphic to the set $$\\mathcal A_k = \\{\\sigma : \\sigma(i)=i\\text{ for at least } t+k \\text{ indices } i\\in\\{1,2,\\dots,t+2k\\}\\}$$ for some $k$. By refining Kupavskii's spread approximation technique, we prove that this conclusion holds for a wider range of $t\\leq n-n^{5/7+\\varepsilon}$."
 )     
 }}

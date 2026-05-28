@@ -2,6 +2,7 @@ title: Notes
 menu-position: 3
 ---
 # Notes and Talks
+
 ## Course notes
 These are more polished versions of the notes that I live-TeXed when I took the corresponding courses at MIT. 
 There will inevitably be errors, which are due to me and not the course instructor.

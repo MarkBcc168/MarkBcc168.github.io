@@ -53,6 +53,8 @@ def paper(text: str, coauthors: list[str]=[], links: dict[str, str] = {}, summar
         result += '</div>'
     result += '</div>'
     result += '</summary>'
+    if not summary.startswith("<p>"):
+        summary = "<p>" + summary + "</p>"
     result += summary
     if(abstract != ""):
         result += "<p><b>Abstract</b><br>"
@@ -90,6 +92,8 @@ def notes(text: str, coauthors: list[str]=[], links: dict[str, str] = {}, summar
         result += '</div>'
     result += '</div>'
     result += '</summary>'
+    if not summary.startswith("<p>"):
+        summary = "<p>" + summary + "</p>"
     result += summary
     result += "<p>" + " ".join(f'(<a href={link}>{text}</a>)' for text, link in links.items()) + "</p>"
     result += '</details>'
