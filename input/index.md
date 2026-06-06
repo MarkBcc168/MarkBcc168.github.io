@@ -11,7 +11,7 @@ I received undergraduate degree from MIT in 2026.
 <br><br>
 I'm interested in pursuing math research in Number Theory and/or Combinatorics.
 <br><br>
-You can reach me via email: <b>mark_[lastname] [at] g.harvard [dot] edu</b>.
+You can reach me via email: <b>saengrun [at] math.harvard [dot] edu</b>.
 <br><br>
 <h3 style="display: inline;"> <a href=static/cv/pitchayut-cv.pdf>View my CV</a> </h3>
 (Last updated: <b>{{last_updated("input/static/cv/pitchayut-cv.pdf")}}</b>)
