@@ -188,3 +188,28 @@ div.details-content > p{
 div.details-content p:last-child{
     margin-bottom: 0em;
 }
+
+div.homepage-box{
+    display: grid;
+    grid-template-columns: minmax(450px,0.7fr) minmax(148px,0.3fr);
+    column-gap: 4px;
+}
+
+div.homepage-bio{
+    align-content: center;
+}
+
+div.homepage-photo{
+    align-content: center;
+}
+
+@media (max-width: 600px) {
+  div.homepage-box {
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+  }
+  div.homepage-photo{
+    max-width: 50%;
+    place-self: center;
+  }
+}
