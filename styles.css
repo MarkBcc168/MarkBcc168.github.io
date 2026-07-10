@@ -64,6 +64,13 @@ ol[type="a"] {
   list-style: paren-lower-alpha;
 }
 
+mjx-container {
+    display: inline-flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+}
+
 div.header, div.content, div.footer {
     padding: 1em;
 }
