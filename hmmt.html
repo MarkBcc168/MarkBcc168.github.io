@@ -13,18 +13,36 @@
   </head>
   <body>
     <div class="box">
-      <div class="header">
+
+    <div class="header">
         <h1 id="no-hash">Pitchayut Saengrungkongka</h1>
-      </div>
-      <div class="menu">
-        <span class=""><a href="/index.html">Home</a></span>
-        <span class=""><a href="/research.html">Research</a></span>
-        <span class="current"><a href="/problems.html">Problems</a></span>
-        <span class=""><a href="/notes.html">Notes</a></span>
-      </div>
+    </div>
+    <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="research.html">Research</a>
+        <div class="dropdown">
+          <button class="dropbtn">Problems</button>
+          <div class="dropdown-content">
+            <a href="/olympiad.html">Olympiad</a>
+            <a href="/hmmt.html">HMMT</a>
+          </div>
+        </div>
+        <a href="notes.html">Notes</a>
+    </div>
+
+    
       <div class="content">
         <h1>HMMT Problems Compilation</h1>
-        <p>Here is a compilation of all of my problems appeared in HMMT.</p>
+        <p>During my undergraduate years, 
+          I was actively involved in HMMT as a <b>Problem Staff</b> (2022-23),
+          <b>Problem Czar</b> (2023-24), <b>Problem Czar Advisor</b> (2024-25),
+          and <b>Historian</b> (2025-26).
+          Over four years, <b>113</b> of my problems were accepted into contest.
+          All problems can be found at the <a href="https://www.hmmt.org/www/archive/problems">HMMT Archive</a>.
+        </p>
+        <p>
+
+        <p>Here is a compilation of all of my problems appeared in HMMT. Problems marked with ★ are my favorites.</p>
 
         <p>Jump to: 
         <ul>
@@ -59,7 +77,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2026/hmic/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>HMIC 2026 P5</h3> 
+        <h3 class="starred">HMIC 2026 P5</h3> 
         <div class="problem-box">
         Let \(n\) be a positive integer. Determine, in terms of \(n\), the number of ordered \(n\)-tuples \((a_1,a_2,\dots,a_n)\) of real numbers such that 
 
@@ -73,7 +91,7 @@
         
         <h2>February 2026</h2>
 
-        <h3>February 2026 Alg/NT P1</h3> 
+        <h3 class="starred">February 2026 Alg/NT P1</h3> 
         <div class="problem-box">
         A line intersects the graph of \(y=x^2+\frac 2x\) at three distinct points. Given that the \(x\)-coordinates of two of the points are \(6\) and \(7\), respectively, compute the \(x\)-coordinate of the third point.
         </div>
@@ -131,14 +149,14 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2026/feb/geo/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2026 Geo P8</h3> 
+        <h3 class="starred">February 2026 Geo P8</h3> 
         <div class="problem-box">
         Let \(ABC\) be a triangle with orthocenter \(H\). The internal angle bisector of \(\angle BAC\) meets the circumcircles of triangles \(ABH\), \(ACH\), and \(ABC\) again at points \(P\), \(Q\), and \(M\), respectively. Suppose that points \(A\), \(P\), \(Q\), and \(M\) are distinct and lie on the internal angle bisector of \(\angle BAC\) in that order. Given that \(AP=4\), \(AQ=5\), and \(BC=7\), compute \(AM\).
         </div>
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2026/feb/geo/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2026 Team P10</h3> 
+        <h3 class="starred">February 2026 Team P10</h3> 
         <div class="problem-box">
         Prove that there exists a real constant \(M\) such that for every prime \(p\geq M\) and any positive integer \(2\leq m\leq p-1\), there exist positive integers \(a\) and \(b\) such that \(m \leq a \leq 1.01m\), \(p^{0.99} \leq b \leq p\), and \(p\) divides \(ab-1\).
         </div>
@@ -161,7 +179,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2026/feb/guts/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2026 Guts P27</h3> 
+        <h3 class="starred">February 2026 Guts P27</h3> 
         <div class="problem-box">
         Let \(a\), \(b\), and \(c\) be positive real numbers such that 
         \begin{align*}
@@ -174,7 +192,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2026/feb/guts/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2026 Guts P30</h3> 
+        <h3 class="starred">February 2026 Guts P30</h3> 
         <div class="problem-box">
         Let \(ABC\) be a triangle with \(AB=60\), \(AC=67\), and \(BC=69\). The incircle \(\omega\) of triangle \(ABC\) touches sides \(\overline{BC}\), \(\overline{CA}\), and \(\overline{AB}\) at \(D\), \(E\), and \(F\), respectively. Let \(D'\) be the point diametrically opposite to \(D\) in \(\omega\). Let the common chord of the circumcircles of triangles \(BD'F\) and \(CD'E\) meet line \(BC\) at \(X\). Compute \(BX\).
         </div>
@@ -200,7 +218,7 @@
 
         <h2>November 2025</h2>
         
-        <h3>November 2025 General P9</h3> 
+        <h3 class="starred">November 2025 General P9</h3> 
         <p><i>(joint with Qiao Zhang) </i></p>
         <div class="problem-box">
         Let \(a\), \(b\), and \(c\) be pairwise distinct nonzero complex numbers such that 
@@ -221,7 +239,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2025/nov/thm/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>November 2025 Theme P10</h3> 
+        <h3 class="starred">November 2025 Theme P10</h3> 
         <div class="problem-box">
         The orbits of Pluto and Charon are given by the ellipses
         \[x^2+xy+y^2=20 \quad \text{and}\quad 2x^2-xy+y^2=25,\]
@@ -237,7 +255,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2025/nov/team/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>November 2025 Team P9</h3> 
+        <h3 class="starred">November 2025 Team P9</h3> 
         <div class="problem-box">
         Let \(a\), \(b\), and \(c\) be positive real numbers such that
         \begin{align*}
@@ -250,7 +268,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2025/nov/team/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>November 2025 Team P10</h3> 
+        <h3 class="starred">November 2025 Team P10</h3> 
         <div class="problem-box">
         Let \(ABCD\) be an isosceles trapezoid with \(\overline{AB}\) parallel to \(\overline{CD}\), and let \(P\) be a point in the interior of \(ABCD\) such that 
         \[\angle PBA = 3\angle PAB\quad\text{and}\quad \angle PCD = 3\angle PDC.\]
@@ -311,7 +329,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2025/nov/guts/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>November 2025 Guts P27</h3> 
+        <h3 class="starred">November 2025 Guts P27</h3> 
         <div class="problem-box">
         Let \(a_1\), \(a_2\), \(a_3\), \(\dots\) be a sequence of integers such that \(a_1=2\) and \(a_{n+1}=a_n^{7}-a_n+1\) for all \(n\ge 1\). Compute the remainder when \(a_{500}\) is divided by \(7^3\).
         </div>
@@ -339,7 +357,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2025/feb/algnt/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2025 Alg/NT P9</h3> 
+        <h3 class="starred">February 2025 Alg/NT P9</h3> 
         <div class="problem-box">
         Let \(f\) be the unique polynomial of degree at most \(2026\) such that for all \(n\in\{1,2,3,\dots,2027\}\),
         \[f(n) = \begin{cases}
@@ -351,7 +369,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2025/feb/algnt/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2025 Geo P5</h3> 
+        <h3 class="starred">February 2025 Geo P5</h3> 
         <div class="problem-box">
         Let \(\bigtriangleup ABC\) be an equilateral triangle with side length \(6\). Let \(P\) be a point inside triangle \(\bigtriangleup ABC\) such that \(\angle BPC=120^\circ\). The circle with diameter \(\overline{AP}\) meets the circumcircle of \(\bigtriangleup ABC\) again at \(X\neq A\). Given that \(AX=5\), compute \(XP\).
         </div>
@@ -377,7 +395,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2025/feb/geo/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2025 Geo P9</h3> 
+        <h3 class="starred">February 2025 Geo P9</h3> 
         <div class="problem-box">
         Let \(ABCD\) be a rectangle with \(BC=24\). Point \(X\) lies inside the rectangle such that \(\angle AXB=90^\circ\). Given that triangles \(\bigtriangleup AXD\) and \(\bigtriangleup BXC\) are both acute and have circumradii \(13\) and \(15\), respectively, compute \(AB\).
         </div>
@@ -419,7 +437,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2025/feb/guts/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2025 Guts P15</h3> 
+        <h3 class="starred">February 2025 Guts P15</h3> 
         <div class="problem-box">
         Right triangle \(\bigtriangleup DEF\) with \(\angle D=90^\circ\) and \(\angle F = 30^\circ\) is inscribed in equilateral triangle \(\bigtriangleup ABC\) such that \(D\), \(E\), and \(F\) lie on segments \(\overline{BC}\), \(\overline{CA}\), and \(\overline{AB}\), respectively. Given that \(BD=7\) and \(DC=4\), compute \(DE\).
         </div>
@@ -440,7 +458,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2025/feb/guts/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2025 Guts P24</h3> 
+        <h3 class="starred">February 2025 Guts P24</h3> 
         <div class="problem-box">
         For any integer \(x\), let
         \[f(x) = 100!\left(1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+\dots+\frac{x^{100}}{100!}\right).\]
@@ -464,7 +482,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2025/feb/guts/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2025 Guts P30</h3> 
+        <h3 class="starred">February 2025 Guts P30</h3> 
         <div class="problem-box">
         Let \(a\), \(b\), and \(c\) be real numbers satisfying the system of equations
         \begin{align*}
@@ -486,7 +504,7 @@
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2024/nov/gen/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>November 2024 Theme P8</h3> 
+        <h3 class="starred">November 2024 Theme P8</h3> 
         <p><i>(joint with Srinivas Arun, David Dong, Jackson Dryg, Derek Liu, Henrick Rabinovitz, Krishna Pothapragada, and Linus
 Yifeng Tang) </i></p>
         <div class="problem-box">
@@ -514,8 +532,7 @@ Yifeng Tang) </i></p>
         </div>
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2024/nov/team/solutions.pdf>Official Sol</a>)</p>
 
-        \begin{center}
-        <h3>November 2024 Team P9</h3> 
+        <h3 class="starred">November 2024 Team P9</h3> 
         <p><i>(joint with Karthik Vedula)</i></p>
         <div class="problem-box">
         Let \(P\) be a point inside isosceles trapezoid \(ABCD\) with \(AB\parallel CD\) such that
@@ -609,7 +626,7 @@ Yifeng Tang) </i></p>
 
         <h2>February 2024</h2>
         
-        <h3>February 2024 Alg/NT P4</h3> 
+        <h3 class="starred">February 2024 Alg/NT P4</h3> 
         <div class="problem-box">
         Let \(f(x)\) be a quotient of two quadratic polynomials. Given that \(f(n)=n^3\) for all \(n\in\{1,2,3,4,5\}\), compute \(f(0).\)
         </div>
@@ -631,7 +648,7 @@ Yifeng Tang) </i></p>
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2024/feb/algnt/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2024 Alg/NT P10</h3> 
+        <h3 class="starred">February 2024 Alg/NT P10</h3> 
         <div class="problem-box">
         A polynomial \(f\in\mathbb Z[x]\) is called <i>splitty</i> if and only if for every prime \(p\), there exist polynomials \(g_p, h_p\in\mathbb Z[x]\) with \(\deg g_p, \deg h_p < \deg f\) and all coefficients of \(f-g_ph_p\) are divisible by \(p\). Compute the sum of all positive integers \(n \leq 100\) such that the polynomial \(x^4+16x^2+n\) is splitty.
         </div>
@@ -660,7 +677,7 @@ Yifeng Tang) </i></p>
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2024/feb/geo/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2024 Geo P9</h3> 
+        <h3 class="starred">February 2024 Geo P9</h3> 
         <div class="problem-box">
         Let \(ABC\) be a triangle. Let \(X\) be the point on side \(\overline{AB}\) such that \(\angle BXC = 60^\circ\). Let \(P\) be the point on segment \(\overline{CX}\) such that \(BP\perp AC\). Given that \(AB=6\), \(AC=7\), and \(BP=4\), compute \(CP\).
         </div>
@@ -681,7 +698,7 @@ Yifeng Tang) </i></p>
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2024/feb/team/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2024 Team P10</h3> 
+        <h3 class="starred">February 2024 Team P10</h3> 
         <div class="problem-box">
         Across all polynomials \(P\) such that \(P(n)\) is an integer for all integers \(n\), determine, with proof, all possible values of \(P(i)\), where \(i^2  = -1\).
         </div>
@@ -702,7 +719,7 @@ Yifeng Tang) </i></p>
 
         
         <h3>February 2024 Guts P9</h3> 
-        <p><i>(joint with Holden Mui and Rishabh Das) </i></p>
+        <p><i>(joint with Rishabh Das and Holden Mui) </i></p>
         <div class="problem-box">
         Compute the sum of all positive integers \(n\) such that \(n^2-3000\) is a perfect square.
         </div>
@@ -730,7 +747,7 @@ Yifeng Tang) </i></p>
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2024/feb/guts/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2024 Guts P26</h3> 
+        <h3 class="starred">February 2024 Guts P26</h3> 
         <div class="problem-box">
         It can be shown that there exists a unique polynomial \(P\) in two variables such that for all positive integers \(m\) and \(n\),
         \[P(m,n)=\sum_{i=1}^m\sum_{j=1}^n (i+j)^7.\]
@@ -815,14 +832,14 @@ Yifeng Tang) </i></p>
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2023/nov/gen/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>November 2023 General P10</h3> 
+        <h3 class="starred">November 2023 General P10</h3> 
         <div class="problem-box">
         Let \(ABCD\) be a convex trapezoid such that \(\angle ABC=\angle BCD=90^\circ\), \(AB=3\), \(BC=6\), and \(CD=12\). Among all points \(X\) inside the trapezoid satisfying \(\angle XBC = \angle XDA\), compute the minimum possible value of \(CX\).
         </div>
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2023/nov/gen/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>November 2023 Theme P4</h3> 
+        <h3 class="starred">November 2023 Theme P4</h3> 
         <div class="problem-box">
         Let \(LOVER\) be a convex pentagon such that \(LOVE\) is a rectangle. Given that \(OV=20\) and \(LO=VE=RE=RL=23\), compute the radius of the circle passing through \(R\), \(O\), and \(V\).
         </div>
@@ -872,14 +889,14 @@ Yifeng Tang) </i></p>
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2023/nov/guts/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>November 2023 Guts P21</h3> 
+        <h3 class="starred">November 2023 Guts P21</h3> 
         <div class="problem-box">
         An integer \(n\) is chosen uniformly at random from the set \(\{1,2,3,\dots,2023!\}\). Compute the probability that \[\gcd(n^n+50, n+1)=1.\]
         </div>
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2023/nov/guts/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>November 2023 Guts P23</h3> 
+        <h3 class="starred">November 2023 Guts P23</h3> 
         <div class="problem-box">
         The points \(A = (4,\frac{1}{4})\) and \(B=(-5,-\frac{1}{5})\) lie on the hyperbola \(xy=1\). The circle with diameter \(AB\) intersects this hyperbola again at points \(X\) and \(Y\). Compute \(XY\).
         </div>
@@ -925,7 +942,7 @@ Yifeng Tang) </i></p>
 
         <h2>February 2023</h2>
         
-        <h3>February 2023 Alg/NT P8</h3> 
+        <h3 class="starred">February 2023 Alg/NT P8</h3> 
         <div class="problem-box">
         Let \(S\) be the set of ordered pairs \((a,b)\) of positive integers such that \(\gcd(a,b)=1\). Compute
         \[\sum_{(a,b)\in S} \left\lfloor\frac{300}{2a+3b}\right\rfloor.\]
@@ -933,7 +950,7 @@ Yifeng Tang) </i></p>
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2023/feb/algnt/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>February 2023 Geo P5</h3> 
+        <h3 class="starred">February 2023 Geo P5</h3> 
         <div class="problem-box">
         Let \(ABC\) be a triangle with \(AB=13\), \(BC=14\), and \(CA=15\). Suppose \(PQRS\) is a square such that \(P\) and \(R\) lie on line \(BC\), \(Q\) lies on line \(CA\), and \(S\) lies on line \(AB\). Compute the side length of this square.
         </div>
@@ -979,12 +996,12 @@ Yifeng Tang) </i></p>
 
         <h3>November 2022 Theme P9</h3> 
         <div class="problem-box">
-        Alice and Bob play the following ``point guessing game." First, Alice marks an equilateral triangle \(ABC\) and a point \(D\) on segment \(BC\) satisfying \(BD=3\) and \(CD=5\). Then, Alice chooses a point \(P\) on line \(AD\) and challenges Bob to mark a point \(Q \neq P\) on line \(AD\) such that \(\frac{BQ}{QC} = \frac{BP}{PC}\). Alice wins if and only if Bob is unable to choose such a point. If Alice wins, what are the possible values of \(\frac{BP}{PC}\) for the \(P\) she chose?
+        Alice and Bob play the following "point guessing game." First, Alice marks an equilateral triangle \(ABC\) and a point \(D\) on segment \(BC\) satisfying \(BD=3\) and \(CD=5\). Then, Alice chooses a point \(P\) on line \(AD\) and challenges Bob to mark a point \(Q \neq P\) on line \(AD\) such that \(\frac{BQ}{QC} = \frac{BP}{PC}\). Alice wins if and only if Bob is unable to choose such a point. If Alice wins, what are the possible values of \(\frac{BP}{PC}\) for the \(P\) she chose?
         </div>
         <p> (<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/2022/nov/thm/solutions.pdf>Official Sol</a>)</p>
 
         
-        <h3>November 2022 Team P9</h3> 
+        <h3 class="starred">November 2022 Team P9</h3> 
         <div class="problem-box">
         Call an ordered pair \((a,b)\) of positive integers <i>fantastic</i> if and only if \(a,b\leq 10^4\) and \[\gcd(a\cdot n!-1, a\cdot (n+1)!+b) > 1\] for infinitely many positive integers \(n\). Find the sum of \(a+b\) across all fantastic pairs \((a,b)\).
         </div>

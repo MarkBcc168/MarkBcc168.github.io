@@ -64,7 +64,7 @@ ol[type="a"] {
   list-style: paren-lower-alpha;
 }
 
-div.header, div.menu, div.content, div.footer {
+div.header, div.content, div.footer {
     padding: 1em;
 }
 div.box{
@@ -74,26 +74,88 @@ div.header{
     padding: 0.1em 0.6em;
     margin-bottom: 0em;
 }
-div.menu {
-    background-color: #dddddd;
-    margin-top: 0em;
-    padding: 0.6em 0 0.6em 0;
+
+
+.menu {
+  overflow: hidden;
+  background-color: #dddddd;
+  padding: 0em 0em 0em 0em;
+  font-size: 16px;
+  font-weight: bold;
 }
-.menu span {
-    font-weight: bold;
-    padding: 0.6em;
-}
-.menu span.current {
-    background-color: #eeeeee;
-    border: 1px solid #dddddd;
-}
+
+/* Links inside the menu */
 .menu a {
-    color: #000000;
-    text-decoration: none;
+  color: #000000;
+  float: left;
+  text-align: center;
+  padding: 0.8em 0.8em;
+  text-decoration: none;
 }
-.menu span:hover {
-    background-color: #e8e8e8;
+
+/* The dropdown container */
+.dropdown {
+  float: left;
+  overflow: hidden;
 }
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  background-color: #dddddd;
+  border: none;
+  outline: none;
+  padding: 0.8em 0.8em;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Add a red background color to menu links on hover */
+.menu a:hover, .dropdown:hover .dropbtn {
+  background-color: #eeeeee;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropbtn::after{
+    content: " ▼";
+}
+
+.dropbtn:hover::after{
+    content: " ▲";
+}
+
+
+
 div.footer {
     color: gray;
     text-align: center;
@@ -201,6 +263,27 @@ div.homepage-bio{
 
 div.homepage-photo{
     align-content: center;
+}
+
+.starred {
+  position: relative;
+}
+
+.starred::before {
+  content: "★";
+  position: absolute;
+  left: -1.5em;      /* sits in the left margin/gutter */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 810px) {
+  .starred::before {
+    position: static;
+    display: inline-block;
+    transform: none;
+    margin-right: 0.4em;
+  }
 }
 
 @media (max-width: 600px) {
