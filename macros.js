@@ -152,10 +152,20 @@ document.addEventListener('DOMContentLoaded', () => {
         elem.innerHTML = "<b>Abstract</b><br>" + text;
     }
 
-    //setup animation
+    //setup accordian animation
     document.querySelectorAll('details').forEach((el) => {
         new Accordion(el);
     });
+    //setup scrolling animation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
 });
 
 
