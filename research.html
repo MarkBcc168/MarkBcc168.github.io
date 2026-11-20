@@ -37,7 +37,7 @@
           paper_title.innerHTML = `${n}. ${paper.title}`;
           paper_header.append(paper_title);
           //coauthors
-          const coauthors = paper.coauthor ?? [];
+          const coauthors = paper.coauthors ?? [];
           if(coauthors.length > 0){
             paper_header.insertAdjacentHTML("beforeend", `(with ${coauthors.join(", ")})`);
           }

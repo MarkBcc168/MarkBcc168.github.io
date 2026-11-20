@@ -57,7 +57,7 @@
     href=https://sites.google.com/view/gallian-reu/home>Duluth REU program</a> in 2025.
 
 - title: Gluing Genus 1 and Genus 2 Curves Along \(\ell\)-torsion
-  coauthor:
+  coauthors:
     - Noah Walsh
   links:
     arXiv: https://arxiv.org/abs/2502.09753
@@ -85,7 +85,7 @@
     JMM 2026.
 
 - title: Complexity of 2D Snake Cube Puzzles
-  coauthor:
+  coauthors:
     - Nithid Anchaleenukoon
     - Alex Dang
     - Erik D. Demaine
