@@ -50,7 +50,7 @@
           problem_div.innerHTML += `<h3 ${(problem.starred) ? "class='starred'" : ""}>
             ${problem.contest} ${problem.year} ${problem_num}</h3>`;
           //coauthors
-          const coauthors = problem.coauthor ?? [];
+          const coauthors = problem.coauthors ?? [];
           if(coauthors.length > 0){
             problem_div.innerHTML += `<p><i>(joint with ${coauthors.join(", ")})</i></p>`;
           }
