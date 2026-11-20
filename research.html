@@ -14,7 +14,7 @@
     import { load } from "https://cdn.jsdelivr.net/npm/js-yaml@5.4.3/+esm";
 
     async function load_research(){
-        const response = await fetch("./research.yaml");
+        const response = await fetch("./inputs/research.yaml");
 
         if (!response.ok) {
           throw new Error(`Failed to load research.yaml: ${response.status}`);
