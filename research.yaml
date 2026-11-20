@@ -17,7 +17,7 @@
   links:
     arXiv: https://arxiv.org/abs/2605.26051
     JMM: https://meetings.ams.org/math/jmm2026/meetingapp.cgi/Paper/55074
-    Slides: static/slides/permutations_slides.pdf
+    Slides: static/slides/permutation_slides.pdf
   abstract: |-
     A set of permutations of \(\{1,2,\dots,n\}\) is \(t\)-intersecting if any two
     permutations agree on at least \(t\) inputs. A recent work by Kupavskii, in the spirit
