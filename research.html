@@ -22,10 +22,9 @@
         const papers = load(await response.text(), {filename: "research.yaml"});
 
         const papers_div = document.getElementById("papers");
-        let n = 0;
+        let n = papers.length;
 
         for(const paper of papers){
-          n += 1;
           const detail_element = document.createElement("details");
           detail_element.classList.add("paper-header");
           const summary = document.createElement("summary");
@@ -34,7 +33,7 @@
           paper_header.classList.add("paper-header");
           const paper_title = document.createElement("div");
           paper_title.classList.add("paper-title");
-          paper_title.innerHTML = paper.title;
+          paper_title.innerHTML = `${n}. ${paper.title}`;
           paper_header.append(paper_title);
           //coauthors
           const coauthors = paper.coauthor ?? [];
@@ -74,8 +73,10 @@
           detail_element.append(summary);
           detail_element.append(content);
           papers_div.append(detail_element);
+          n -= 1;
         }
       setup_content();
+      await MathJax.typesetPromise()
     }
     document.addEventListener('DOMContentLoaded', load_research);
     </script>
