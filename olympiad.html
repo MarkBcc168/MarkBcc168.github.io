@@ -10,7 +10,185 @@
     <link rel="stylesheet" href="/styles.css">
     <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="/macros.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', setup_content);</script>
+    <script type="module">
+    import { load } from "https://cdn.jsdelivr.net/npm/js-yaml@5.4.3/+esm";
+    
+    async function load_problems(){
+        const response = await fetch("./inputs/olympiad.yaml");
+        if (!response.ok) {
+          throw new Error(`Failed to load research.yaml: ${response.status}`);
+        }
+
+        const problems = load(await response.text(), {filename: "problems.yaml"});
+
+        const problems_div = document.getElementById("problems");
+        const all_contests = [];
+        const all_years = [];
+
+        for(let i=0; i<problems.length; i+=1){
+          const problem = problems[i];
+          const problem_div = document.createElement("div");
+          problem_div.dataset.contest = problem.contest;
+          problem_div.dataset.year = problem.year;
+          problem_div.dataset.starred = problem.starred ?? "false";
+          problem_div.dataset.subject = problem.subject;
+          problem_div.dataset.diff = problem.difficulty;
+
+          if(!all_contests.includes(problem.contest)){
+            all_contests.push(String(problem.contest));
+          }
+          if(!all_years.includes(problem.year)){
+            all_years.push(problem.year);
+          }
+          problem_div.classList.add("problem");
+          problem_div.style.display = "block";
+          let problem_num = problem.problem_number;
+          if(isFinite(problem_num)){
+            problem_num = "P" + problem_num;
+          }
+          //tltle
+          problem_div.innerHTML += `<h3 ${(problem.starred) ? "class='starred'" : ""}>
+            ${problem.contest} ${problem.year} ${problem_num}</h3>`;
+          //coauthors
+          const coauthors = problem.coauthor ?? [];
+          if(coauthors.length > 0){
+            problem_div.innerHTML += `<p><i>(joint with ${coauthors.join(", ")})</i></p>`;
+          }
+          //statement
+          const statement_div = document.createElement("div");
+          statement_div.classList.add("problem-box");
+          statement_div.innerHTML = problem.statement;
+          problem_div.append(statement_div);
+          problem_div.innerHTML += "<p>";
+
+          const links = Object.entries(problem.links ?? {});
+          for(const link of links){
+            problem_div.innerHTML += `(<a href=${link[1]}>${link[0]}</a>) `;
+          }
+          problem_div.innerHTML += "</p>";
+
+          problems_div.append(problem_div);
+        }
+        //contest tags
+        const contest_tags_div = document.getElementById("contest-tags");
+        for(const contest of all_contests){
+          const tag_button = document.createElement("button");
+          tag_button.innerHTML = contest;
+          tag_button.classList.add("tag-toggle");
+          tag_button.setAttribute("aria-pressed", "false");
+          contest_tags_div.append(tag_button);
+          contest_tags_div.innerHTML += " ";
+        }
+
+        //year tags 
+        all_years.sort().reverse();
+        const year_tags_div = document.getElementById("year-tags");
+        for(const year of all_years){
+          const tag_button = document.createElement("button");
+          tag_button.innerHTML = year;
+          tag_button.classList.add("tag-toggle");
+          tag_button.setAttribute("aria-pressed", "false");
+          year_tags_div.append(tag_button);
+          year_tags_div.innerHTML += " ";
+        }
+
+        document.querySelectorAll(".tag-toggle").forEach(button => {
+          button.addEventListener("click", () => {
+            const selected = button.getAttribute("aria-pressed") === "true";
+            button.setAttribute("aria-pressed", String(!selected));
+            tags_toggle();
+          });
+        });
+        setup_content();
+        await MathJax.typesetPromise();
+    }
+    async function tags_toggle(){
+      const all_problems = document.querySelectorAll(".problem");
+      //first reset everything 
+      for(const problem of all_problems){
+        problem.style.display = "block";
+      }
+      const tagged_contests = [];
+      const contest_tags_div = document.getElementById("contest-tags");
+      for(const contest_button of contest_tags_div.getElementsByClassName("tag-toggle")){
+        if(contest_button.getAttribute("aria-pressed") === "true"){
+          tagged_contests.push(contest_button.innerHTML);
+        }
+      }
+      if(tagged_contests.length > 0){
+        for(const problem of all_problems){
+          if(!tagged_contests.includes(problem.dataset.contest)){
+            problem.style.display = "none";
+          }
+        }
+      }
+
+      const tagged_years = [];
+      const year_tags_div = document.getElementById("year-tags");
+      for(const year_button of year_tags_div.getElementsByClassName("tag-toggle")){
+        if(year_button.getAttribute("aria-pressed") === "true"){
+          tagged_years.push(year_button.innerHTML);
+        }
+      }
+      if(tagged_years.length > 0){
+        for(const problem of all_problems){
+          if(!tagged_years.includes(problem.dataset.year)){
+            problem.style.display = "none";
+          }
+        }
+      }
+
+      const tagged_subjects = [];
+      const subject_tags_div = document.getElementById("subject-tags");
+      for(const subject_button of subject_tags_div.getElementsByClassName("tag-toggle")){
+        if(subject_button.getAttribute("aria-pressed") === "true"){
+          tagged_subjects.push(subject_button.innerHTML.charAt(0));
+        }
+      }
+      if(tagged_subjects.length > 0){
+        for(const problem of all_problems){
+          if(!tagged_subjects.includes(problem.dataset.subject)){
+            problem.style.display = "none";
+          }
+        }
+      }
+
+      const tagged_diffs = [];
+      const diff_tags_div = document.getElementById("diff-tags");
+      for(const diff_button of diff_tags_div.getElementsByClassName("tag-toggle")){
+        if(diff_button.getAttribute("aria-pressed") === "true"){
+          tagged_diffs.push(diff_button.dataset.diff);
+        }
+      }
+      if(tagged_diffs.length > 0){
+        for(const problem of all_problems){
+          if(!tagged_diffs.includes(problem.dataset.diff)){
+            problem.style.display = "none";
+          }
+        }
+      }
+
+      const starred_yes_button =  document.getElementById("starred-yes");
+      const starred_no_button =  document.getElementById("starred-no");
+      const starred_yes_pressed = starred_yes_button.getAttribute("aria-pressed") === "true";
+      const starred_no_pressed = starred_no_button.getAttribute("aria-pressed") === "true";
+      if(starred_yes_pressed && !starred_no_pressed){
+        for(const problem of all_problems){
+          if(problem.dataset.starred === "false"){
+            problem.style.display = "none";
+          }
+        }
+      }
+      else if(starred_no_pressed && !starred_yes_pressed){
+        for(const problem of all_problems){
+          if(problem.dataset.starred === "true"){
+            problem.style.display = "none";
+          }
+        }
+      }
+    }
+    document.addEventListener('DOMContentLoaded', load_problems);
+    </script>
   </head>
   <body>
     <div class="box">
@@ -34,270 +212,14 @@
 
       <div class="content">
         <h1>Olympiad Problems</h1>
-        <p>I'm actively involved in writing problems for various math Olympiad contests. Here is a list of my proposed problems. Problems marked with ★ are my favorites.
-        </p>
-
-        <p>Jump to:
-        <ul>
-          <li><a href="#college">College</a></li>
-          <li><a href="#high_school">High School</a></li>
-        </ul>
-        </p>
-        <h2>College</h2>
-        During college, I submit and help review problems for various Olympiad contests such as 
-        <ul>
+        <p>I'm actively involved in writing and reviewing problems for various math Olympiad contests,
+          such as 
+          <ul>
         <li> the <a href="https://www.imo-official.org/">International Mathematical Olympiad (IMO)</a>;</li>
         <li> the USA  TST Selection Test (TSTST) and Team Selection Test (TST); and</li>
         <li> Thailand  TST Selection Test (TSTST), Team Selection Test (TST), and the Mock IMO.</li>
         </ul>
-        Here are the problems that were accepted to the contest.
-
-        <h3 class="starred">IMO Shortlist 2024 A4</h3>
-        <div class=problem-box>
-          Let \(\mathbb{Z}_{>0}\) be the set of all positive integers. Determine all subsets \(\mathcal{S}\) of \(\{2^{0},2^{1},2^{2},\ldots\}\) for which there exists a function \(f\colon\mathbb{Z}_{>0}\to\mathbb{Z}_{>0}\) such that
-          \[\mathcal{S}=\{f(a+b)-f(a)-f(b)\mid a,b\in\mathbb{Z}_{>0}\}.\]
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3610435p35340902">AoPS</a>)
-          (<a href="https://www.imo-official.org/problems/IMO2024SL.pdf#page=21">Official Sol</a>)
-        </p>
-
-        <h3 class="starred">USA TST 2026 Problem 6</h3>
-        <div class=problem-box>
-          A positive integer is called <i>chaotic</i> if it can be expressed as \(a^3+b^3+abc\) for positive integers \(a\geq b\geq c\). Show that there is no infinite increasing arithmetic progression consisting of only chaotic positive integers.
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3750494p36924029">AoPS</a>)
-          (<a href="https://github.com/usa-tst-public/USA-TST-Archive/blob/main/IMOTST2026Solutions.pdf">Official Sol</a>)
-        </p>
-        
-        
-        
-        <h3 class="starred">USA TST 2025 Problem 6</h3>
-        <div class=problem-box>
-          Prove that there exists a real number \(\varepsilon>0\)
-          such that there are infinitely many sequences of integers \(0 &lt; a_1 &lt; a_2 &lt;\dots &lt;a_{2025}\) satisfying
-          \[\gcd(a_1^2+1, a_2^2+1,\dots, a_{2025}^2+1) > a_{2025}^{1+\varepsilon}.\]
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3477769p33692821">AoPS</a>)
-          (<a href="https://web.evanchen.cc/exams/sols-TST-IMO-2025.pdf#page=13">Official Sol</a>)
-        </p>
-        
-        <h3>USA TSTST 2026 Problem 7</h3>
-        <div class=problem-box>
-        Determine all ordered pairs of positive integers \((a,b)\) such that \(n+1\) divides \(\binom{an+b}n\) 
-        for all positive integers \(n\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3856579">AoPS</a>)
-          (<a href="https://github.com/usa-tst-public/USA-TST-Archive/blob/main/TSTST2026Solutions.pdf">Official Sol</a>)
-        </p>
-        
-        <h3>USA TSTST 2025 Problem 8</h3>
-        <div class=problem-box>
-          Find all polynomials \(f\) with integer coefficients such that for all positive integers \(n\),
-          \[ n\text{ divides } \underbrace{f(f(\dots(f(0))\dots )}_{n+1\ f\text{'s}} - 1. \]
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3601261p35223743">AoPS</a>)
-          (<a href="https://github.com/usa-tst-public/USA-TST-Archive/blob/main/TSTST2025Solutions.pdf">Official Sol</a>)
-        </p>
-
-        <h3>Thailand Mock IMO 2026 P4</h3>
-        <p><i>(joint with Ruben Carpenter)</i></p>
-        <div class=problem-box>
-          Let \(c\) be a real number. The number \(0\) is written on the board.
-          Mark can perform the following moves: if the number \(x\) on the board, Mark can replace it with either \(x^2+c\) or \(x-1\).
-          Determine all values of \(c\) such that for every real numbers \(a &lt; b\),
-          Mark can write a number in the open interval \((a,b)\) after finitely many moves.
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/u517103h3866905">AoPS</a>)</p>
-        
-        <h3>Thailand TST 2026 Problem 1</h3>
-        <div class=problem-box>
-          Determine all integers \(a\) such that for every positive integer \(M\), there exists a positive integer \(n\) such that
-          \[\gcd(n-a, n^n + 2026) > M.\]
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/u517103h3866887">AoPS</a>)</p>
-
-        <h3>Thailand TST 2026 Problem 4</h3>
-        <div class=problem-box>
-        Let \(p\equiv 3 \pmod{4}\) be a prime greater than \(3\). Let \(S\) be the sum of all integers \(x\) in \(\{0,1,2,\dots,p-1\}\) such that both \(x\) and \(x+1\) are quadratic residue modulo \(p\). In terms of \(p\), determine the remainder of \(S\) when divided by \(p\).
-
-        <p><i>An integer \(a\) is a quadratic residue modulo \(p\) if there exists an integer \(r\) such that \(a-r^2\) is divisible by \(p\).</i></p>
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/u517103h3866892">AoPS</a>)</p>
-
-        <h3 class="starred">Thailand TST 2026 Problem 10</h3>
-        <div class=problem-box>
-        Let \(AFBDCE\) be a convex hexagon such that
-        \[\angle FAB = \angle FBA = \angle DBC\quad \text{and}\quad\angle EAC = \angle ECA = \angle DCB.\]
-        Let \(H\) be the orthocenter of triangle \(BDC\). Prove that \(AH\perp EF\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/u517103h3866893">AoPS</a>)</p>
-
-        <h3>Thailand TST 2026 Problem 13</h3>
-        <div class=problem-box>
-        Let \(\mathbb Q\) be the set of rational numbers.
-        Determine all functions \(f:\mathbb{Q}\to\mathbb{Q}\) such that
-        \[f(x^2 + xy + f(y)^2) = f(x)^2 + f(x)f(y) + y^2\]holds for all rational numbers \(x\) and \(y\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/u517103h3866895">AoPS</a>)</p>
-
-        <h3>Thailand TST 2026 Problem 15</h3>
-        <div class=problem-box>
-        Let \(p\) be a prime number and \(d &lt; p-1\) be a positive integer. Let \(S_1,\dots,S_p\) be subsets of \(\{1,2,3,\dots,p-1\}\) of size \(d\). Prove that there exists a nonzero polynomial \(f\) of degree at most \(d\) with integer coefficients such that \(f(i)-s\) is not divisible by \(p\) for all \(i\in\{1,2,\dots,p\}\) and \(s\in S_i\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/u517103h3866896">AoPS</a>)</p>
-
-        <h3 class="starred">Thailand TST 2026 Problem 16</h3>
-        <div class=problem-box>
-          Let \(n\) be a positive integer, and let \([n]=\{1,2,\dots,n\}\). Determine the number of non-increasing functions \(f:[n]\to[n]\) such that \(f(f(x))\geq x\) for all \(x\in [n]\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/u517103h3866900">AoPS</a>)</p>
-
-        <h3>Thailand TSTST 2026 Problem 3</h3>
-        <div class=problem-box>
-          Let \(\mathbb Q\) be the set of rational numbers.
-          Determine all surjective functions \(f \colon\mathbb Q\to\mathbb Q\) such that
-          \[f(f(xy)+x+y) = f(x)f(y)+2025\]
-          for all \(x,y\in\mathbb Q\).
-
-          <p><i>A function \(f : \mathbb Q\to \mathbb Q\) is surjective if and only if for any \(y\in\mathbb Q\), there exists \(x\in\mathbb Q\) such that \(f(x)=y\).</i></p>
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/u517103h3866838">AoPS</a>)</p>
-
-        <h3>Thailand TSTST 2026 Problem 6</h3>
-        <div class=problem-box>
-          Let \(a\), \(b\), and \(M\) be positive integers such that for every integer \(n>M\),
-            \[n^2\mid a^n-1 \,\, \text{if and only if} \,\, n^2\mid b^n-1.\]
-          Prove that \(a=b\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/u517103h3866843">AoPS</a>)</p>
-        
-        <h3>Thailand TST 2025 Problem 12</h3>
-        <div class=problem-box>
-          Prove that there exists a constant \(C>0\) such that
-          for any odd prime numbers \(p\) and \(q\), there exists a prime number \(r < C\max(p,q)^{3/2}\) such that
-          <ul>
-            <li> \(r\) does not divide \(2pq\);
-            <li> there exists an integer \(a\) such that \(r\) divides \(a^2-p\); and
-            <li> there exists an integer \(b\) such that \(r\) divides \(b^2-q\).
-          </ul>
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3610351p35339644">AoPS</a>)</p>
-        
-        <h3 class="starred">Thailand TST 2025 Problem 16</h3>
-        <div class=problem-box>
-          Let \(ABC\) be a triangle. 
-          Let \(D\) be a point on the interior of segment \(BC\). 
-          The perpendicular bisector of \(AD\) intersects sides \(AC\) and \(AB\) at points \(E\) and \(F\), respectively. 
-          Let \(\omega_B\) and \(\omega_C\) be the circumcircles of triangles \(BDF\) and \(CDE\), respectively. 
-          The common external tangents of \(\omega_B\) and \(\omega_C\) meet at \(T\).
-          <ol type=a>
-            <li>Prove that \(T\) lies on line \(EF\).
-            <li>Prove that line \(AT\) is tangent to the circumcircle of triangle \(ABC\).
-          </ol>
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3610370p35339913">AoPS</a>)</p>
-        
-        <h3>Thailand TST 2025 Problem 17</h3>
-        <div class=problem-box>
-          	Let \(p\geq 3\) be a prime number and \(r\) be a positive integer. 
-            Prove that for any positive integer \(n\) with \(n>r(p-1)\), the expression
-            \[\binom n0 - \binom np + \binom n{2p}
-            - \binom n{3p} + \dots\]
-            is divisible by \(p^r\).
-
-          <i>(Note that \(\tbinom nk = 0\) whenever \(k>n\).)</i>
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3610361p35339819">AoPS</a>)</p>
-        
-        <h3 class="starred">Thailand TSTST 2025 Problem 3</h3>
-        <div class=problem-box>
-          Find all functions \(f\colon\mathbb{Z}\to\mathbb{Z}\) such that
-          \[f\big(f(f(a))+b\big)+f(a-b)=2f(f(a))\]
-          for every integers \(a\) and \(b\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3610369p35339912">AoPS</a>)</p>
-        
-        <h3> Thailand TSTST 2025 Problem 4</h3>
-        <div class=problem-box>
-          Let \(a\) and \(b\) be positive integers. 
-          Prove that there exists infinitely many positive integer \(n\) such that \(a^n+b^n+n!\) is not a perfect square.
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3610373p35339934">AoPS</a>)</p>
-        
-        <h3>Thailand TSTST 2025 Problem 8</h3>
-        <div class=problem-box>
-          Let \(ABC\) be an acute scalene triangle. 
-          Let \(D\) be the foot of altitude from \(A\) to \(\overline{BC}\). 
-          Let \(E\) be a point on the segment \(AC\) such that \(CD=CE\) and 
-          \(F\) be a point on the segment \(AB\) such that \(BD=BF\). 
-          Construct point \(P\) on the line \(DE\) such that \(PA=PE\). 
-          Similarly, construct point \(Q\) on the line \(DF\) such that \(QA=QF\).
-          Prove that the circumcenter of triangle \(DPQ\) is on the internal angle bisector of \(\angle{BAC}\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3610378p35339960">AoPS</a>)</p>
-        
-        <h3>Thailand TSTST 2025 Problem 10</h3>
-        <div class=problem-box>
-          The bank of Sunshine Coast issues the coin with an \(H\) on one side and \(T\) on the other side. Bob arranges \(n\geqslant 3\) coins in order from left to right and repeatedly performs an operation: Bob selects the coin that is not the leftmost and rightmost coin with its neighbours showing two different faces, then flip that coin. For example, if \(n=4\) with the initial configuration \(HTHH\), Bob can only flip the third coin and make the configuration \(HTTH\). Let \(C\) and \(C'\) be any two configurations. Prove that if he can turn \(C\) into \(C'\) by using an order of allowed operations, then he could complete the operation in at most \(n^2\) times.
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3610371p35339923">AoPS</a>)</p>
-        
-        <h3>Thailand TSTST 2025 Problem 12</h3>
-        <div class=problem-box>
-          Let \(a,n\) be positive integers and \(f\) be a polynomial with non-negative integer coefficients. Prove that there exists a positive integer \(k\) such that \(n\) divides \(a^{f(k)}-k\).
-        </div>
-        
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3610376p35339956">AoPS</a>)</p>
-        
-        <h3>Thailand Mock IMO 2024 Problem 4</h3>
-        <div class=problem-box>
-          Determine all nonconstant polynomial  \(P \) with real coefficients for which there exist nonconstant polynomials  \(Q \) and  \(R \) with real coefficients such that  \(P(Q(x))=R(x)^2 \).
-        </div>
-        
-        <h3 class="starred">Thailand TST 2024 Problem 13</h3>
-        <div class=problem-box>
-          Determine all polynomials \(P\) with integer coefficients for which 
-          there exists an integer \(a_n\) such that \(P(a_n)=n^n\) for all positive integers \(n\).   
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3610378p35339960">AoPS</a>)</p>
-        
-        <h3>Thailand Mock IMO 2023 Problem 2</h3>
-        <p><i>(with Nithid Anchaleenukoon)</i></p>
-        <div class=problem-box>
-          Let  \(ABCD \) be a quadrilateral that has an incircle centered at point  \(I \). Lines  \(AD \) and  \(BC \) meet at  \(E \). Let  \(\Gamma_1 \) and  \(\Gamma_2 \) be the circumcircles of triangles  \(EAB \) and  \(ECD \), respectively. Let  \(\Gamma_1 \) and  \(\Gamma_2 \) meet again at  \(M\neq E \). Line  \(EI \) meets  \(\Gamma_1 \) and  \(\Gamma_2 \) again at  \(M_1\neq E \) and  \(M_2\neq E \), respectively. Construct point  \(T_1 \) on  \(\Gamma_1 \) such that  \(\angle IT_1M_1=90^\circ \), and construct point  \(T_2 \) on  \(\Gamma_2 \) such that  \(\angle IT_2M_2=90^\circ \). Prove that the circumcenter of triangle  \(IME \) lies on line  \(T_1T_2 \).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3081885">AoPS</a>)</p>
-        
-        <h3 class="starred">Thailand Mock IMO 2023 Problem 3</h3>
-        <div class=problem-box>
-          Let  \(\mathbb R \) be the set of real numbers. Determine all injective functions  \(f:\mathbb R\to\mathbb R \) satisfying the equation
-        \[f\left(\frac{x^3+y^3}{x-y}\right) = \frac{f(x)^3+f(y)^3}{f(x)-f(y)}\] 
-        for every two distinct real numbers  \(x \) and  \(y \).
-
-        <p><i>A function  \(g : \mathbb R\to\mathbb R \) is injective if and only if  \(g(a)\neq g(b) \) for every two distinct real numbers  \(a \) and  \(b \).</i></p>
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3081886">AoPS</a>)</p>
-
-        
-        <h3>Thailand Mock IMO 2023 Problem 4</h3>
-        <div class=problem-box>
-        Find all polynomials  \(P(x) \) with integer coefficients for which there exists an integer  \(M \) such that  \(P(n) \) divides  \((n+2023)! \) for all positive integers  \(n>M \).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3082444">AoPS</a>)</p>
-
-        
-        <h3>Thailand Mock IMO 2023 Problem 6</h3>
-        <p><i>(with Nithid Anchaleenukoon and Papon Lapate)</i></p>
-        <div class=problem-box>
-        Let  \(n \) be a positive integer. There are  \(\tfrac{n(n+1)}2 \) points arranged in an equilateral triangular array with the biggest row containing  \(n \) points. A lightning path is a path consisting of exactly  \(n \) points that starts at one of the three corners of the triangular array, ends at a point on the side opposite to the starting corner, and any two consecutive vertices are adjacent.
-        
-        <p>Suppose that there are  \(k \) lightning paths such that each of the  \(\tfrac{n(n+1)}2 \) points is a part of at least one lightning path. Prove that  \(k\geq\tfrac{2n}{3} \).</p>
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3082446">AoPS</a>)</p>
-
-
-      <h2>High School</h2>
-      Here are Olympiad problems I proposed during high-school or for high-school student-run contests.
+      Back in high school, 
       I founded Thailand Online Mathematical Olympiad, a student-run contest intended to simulate 
       the our national Olympiad (in particular, the difficulty ranges from sub-IMO to IMO 1/4). 
       You can also view <a href="https://artofproblemsolving.com/community/c3024041_thailand_online_mo">
@@ -306,184 +228,34 @@
       During the pandemic, I also run the 
       <a href="https://artofproblemsolving.com/community/c594864h2043263">Fake Mock USA(J)MO</a> on AoPS 
       and helped organize the Global Quarantine Mathematical Olympiad (GQMO) in 2020.
-      
-      <h3>Thailand Online MO 2023 P3</h3>
-      <div class=problem-box>
-          Let \(a\) and \(n\) be positive integers such that the greatest common divisor of \(a\) and \(n!\) is \(1\). Prove that \(n!\) divides \(a^{n!}-1\).
+
+      <p>Here are the problems that were accepted to the contest. Problems marked with ★ are my favorites.</p>
+
+      <p><b>Filter by:</b> <br>
+      <div class="tags-category", id="subject-tags">Subject: 
+        <button class="tag-toggle" aria-pressed="false">Algebra</button>
+        <button class="tag-toggle" aria-pressed="false">Combinatorics</button>
+        <button class="tag-toggle" aria-pressed="false">Geometry</button>
+        <button class="tag-toggle" aria-pressed="false">Number Theory</button>
       </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3013540">AoPS</a>)</p>
-
-      <h3>Thailand Online MO 2023 P4</h3>
-      <div class=problem-box>
-          Let \(ABC\) be a triangle, and let \(D\) and \(D_1\) be points on segment \(BC\) such that \(BD = CD_1\). Construct point \(E\) such that \(EC\perp BC\) and \(ED\perp AC\). Similarly, construct point \(F\) such that \(FB\perp BC\) and \(FD\perp AB\). Prove that \(EF\perp AD_1\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3013542">AoPS</a>)</p>
-
-      <h3>Thailand Online MO 2023 P6</h3>
-      <div class=problem-box>
-          Let \(ABC\) be a triangle. Construct point \(X\) such that \(BX=BA\) and \(X\) and \(C\) lies on the same side of line \(AB\). Construct point \(Y\) such that \(CY=CA\) and \(Y\) and \(B\) lies on different sides of line \(AC\). Suppose that triangle \(BAX\) and triangle \(CAY\) are similar, prove that the circumcenter of triangle \(AXY\) lies on the circumcircle of triangle \(ABC\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h3013546">AoPS</a>)</p>
-
-      <h3>Thailand Online MO 2022 P4</h3>
-      <div class=problem-box>
-          There are \(2022\) signs arranged in a straight line. Mark tasks Auto to color each sign with either red or blue with the following condition: for any given sequence of length \(1011\) whose each term is either red or blue, Auto can always remove \(1011\) signs from the line so that the remaining \(1011\) signs match the given color sequence without changing the order. Determine the number of ways Auto can color the signs to satisfy Mark's condition.
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2816314p24870209">AoPS</a>)</p>
-
-      <h3 class="starred">Thailand Online MO 2022 P5</h3>
-      <div class=problem-box>
-          Let \(ABC\) be an acute triangle with circumcenter \(O\) and orthocenter \(H\). Let \(M_B\) and \(M_C\) be the midpoints of \(AC\) and \(AB\), respectively. Place points \(X\) and \(Y\) on line \(BC\) such that \(\angle HM_BX = \angle HM_CY = 90^{\circ}\). Prove that triangles \(OXY\) and \(HBC\) are similar.
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2816315p24870212">AoPS</a>)</p>
-
-      <h3>Thailand Online MO 2022 P7</h3>
-      <div class=problem-box>
-          Let \(p\) be a prime number, and let \(a_1, a_2, \dots , a_p\) and \(b_1, b_2, \dots , b_p\) be \(2p\) (not necessarily distinct) integers chosen from the set \(\{1, 2, \dots , p - 1\}\). Prove that there exist integers \(i\) and \(j\) such that \(1 \le i < j \le p\) and \(p\) divides \(a_ib_j-a_jb_i\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2816308p24870187">AoPS</a>)</p>
-
-      <h3 class="starred">Thailand Online MO 2022 P10</h3>
-      <div class=problem-box>
-          Let \(\mathbb{Q}\) be the set of rational numbers. Determine all functions \(f : \mathbb{Q}\to\mathbb{Q}\) satisfying both of the following conditions.
-          <ul>
-          <li> \(f(a)\) is not an integer for some rational number \(a\).
-          <li>For any rational numbers \(x\) and \(y\), both \(f(x + y) - f(x) - f(y)\) and \(f(xy) - f(x)f(y)\) are integers.
-          </ul>
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2816306p24870183">AoPS</a>)</p>
-
-      <h3>Thailand Online MO 2021 P1</h3>
-      <div class=problem-box>
-          There is a fence that consists of \(n\) planks arranged in a line. Each plank is painted with one of the available \(100\) colors. Suppose that for any two distinct colors \(i\) and \(j\), there is a plank with color \(i\) located to the left of a (not necessarily adjacent) plank with color \(j\). Determine the minimum possible value of \(n\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2517223p21336278">AoPS</a>)</p>
-        
-      <h3>Thailand Online MO 2021 P9</h3>
-      <div class=problem-box>
-          For each positive integer \(k\), denote by \(\tau(k)\) the number of all positive divisors of \(k\), including \(1\) and \(k\). Let \(a\) and \(b\) be positive integers such that \(\tau(\tau(an)) = \tau(\tau(bn))\) for all positive integers \(n\). Prove that \(a=b\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2517230p21336290">AoPS</a>)</p>
-
-      <h3 class="starred">USEMO 2020 P2</h3>
-      <div class=problem-box>
-          Calvin and Hobbes play a game. First, Hobbes picks a family \(\mathcal F\) of subsets of \(\{1, 2, . . . , 2020\}\), known to both players. Then, Calvin and Hobbes take turns choosing a number from \(\{1, 2, . . . , 2020\}\) which is not already chosen, with Calvin going first, until all numbers are taken (i.e., each player has \(1010\) numbers). Calvin wins if he has chosen all the elements of some member of \(\mathcal F\), otherwise Hobbes wins. What is the largest possible size of a family \(\mathcal F\) that Hobbes could pick while still having a winning strategy?
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2317643p18471210">AoPS</a>)
-        (<a href="https://web.evanchen.cc/exams/report-usemo-2020.pdf">Official Sol</a>)
-      </p>
-      
-      <h3 class="starred">USEMO 2020 P6</h3>
-      <div class=problem-box>
-          Prove that for every odd integer \(n > 1\), there exist integers \(a, b > 0\) such that, if we let \(Q(x) = (x + a)^
-          2 + b\), then the following conditions hold:
-          <ul>
-          <li> we have \(\gcd(a, n) = \gcd(b, n) = 1\);
-          <li> the number \(Q(0)\) is divisible by \(n\); and
-          <li>  the numbers \(Q(1), Q(2), Q(3), \dots\) each have a prime factor not dividing \(n\).
-          </ul>
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2318791p18486965">AoPS</a>)
-        (<a href="https://web.evanchen.cc/exams/report-usemo-2020.pdf">Official Sol</a>)
-        </p>
-
-
-      <h3>IMEO 2020 P6</h3>
-      <div class=problem-box>
-          	Let \(O\), \(I\), and \(\omega\) be the circumcenter, the incenter, and the incircle of nonequilateral \(\triangle ABC\). Let \(\omega_A\) be the unique circle tangent to \(AB\) and \(AC\), such that the common chord of \(\omega_A\) and \(\omega\) passes through the center of \(\omega_A\) . Let \(O_A\) be the center of \(\omega_A\). Define \(\omega_B\), \(O_B\), 
-            \(\omega_C\), and \(O_C\) similarly. If \(\omega\) touches \(BC\), \(CA\), and \(AB\) at \(D\), \(E\), and \(F\) respectively, prove that the perpendiculars from \(D\), \(E\), \(F\) to \(O_BO_C\) , \(O_CO_A\) , and \(O_AO_B\) are concurrent on the line \(OI\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2192999p16444177">AoPS</a>)
-        </p>
-
-      <h3>GQMO 2020 Beginner P5</h3>
-      <div class=problem-box>
-          Let \(n\) and \(k\) be positive integers such that \(k\leq 2^n\). Banana and Corona are playing the following variant of the guessing game. First, Banana secretly picks an integer \(x\) such that \(1\leq x\leq n\). Corona will attempt to determine \(x\) by asking some questions, which are described as follows. In each turn, Corona chooses \(k\) distinct subsets of \(\{1, 2, \ldots, n\}\) and, for each chosen set \(S\), asks the question "Is \(x\) in the set \(S\)?''. Banana picks one of these \(k\) questions and tells both the question and its answer to Corona, who can then start another turn.
-
-          <p>Find all pairs \((n,k)\) such that, regardless of Banana's actions, Corona could determine \(x\) in finitely many turns with absolute certainty.</p>
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2098007p15170815">AoPS</a>)
-        </p>
-
-      <h3>GQMO 2020 Beginner P6</h3>
-      <div class=problem-box>
-          For every integer \(n\) not equal to \(1\) or \(-1\), define \(S(n)\) as the smallest integer greater than \(1\) that divides \(n\). In particular, \(S(0)=2\). We also define \(S(1) = S(-1) = 1\). Let \(f\) be a non-constant polynomial with integer coefficients such that \(S(f(n)) \leq S(n)\) for every positive integer \(n\). Prove that \(f(0)=0\).
-
-          <p>Note: A non-constant polynomial with integer coefficients is a function of the form \(f(x) = a_0 + a_1 x + a_2 x^2 + \ldots + a_k x^k\), where \(k\) is a positive integer and \(a_0,a_1,\ldots,a_k\) are integers such that \(a_k \neq 0\).</p>
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2098008p15170834">AoPS</a>)
-        </p>
-
-      <h3 class="starred">GQMO 2020 Advanced P6</h3>
-      <div class=problem-box>
-          Decide whether there exist infinitely many triples \((a,b,c)\) of positive integers such that all prime factors of \(a!+b!+c!\) are smaller than \(2020\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2112348p15298934">AoPS</a>)
-        </p>
-
-      <h3>Fake USAJMO 2020 P2</h3>
-      <div class=problem-box>
-          	Let \(\mathbb{Z}_{\geq 0}\) denote the set of all nonnegative integers. Determine all functions \(f:\mathbb{Z}_{\geq 0}\to\mathbb{Z}_{\geq 0}\) such that for any \(a,b\in\mathbb{Z}_{\geq 0}\),
-            \[f^a(b)-f^b(a) = a-b.\]
-            Here \(f^0(n)=n\), and for any positive integer \(k\), \(f^k(n)\) means \(f\) applied \(k\) times to \(n\).
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2078503p14933600">AoPS</a>)
-        (<a href="https://artofproblemsolving.com/community/c594864h2043263">Contest Announcement</a>)
-        </p>
-
-      <h3>Fake USAJMO 2020 P4</h3>
-      <div class=problem-box>
-          Let \(A\) be an infinite set of positive integers. Prove that the following two assertions are equivalent.
-          <ul>
-        <li> There exists an infinite subset \(B\subseteq A\) such that any two elements of \(B\) have no common divisors other than \(\pm 1\).
-        <li>For any positive integer \(n\), there exists infinitely many elements \(a\in A\) such that \(\gcd(a,n)=1\).
-        </ul>
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2078505p14933607">AoPS</a>)
-        (<a href="https://artofproblemsolving.com/community/c594864h2043263">Contest Announcement</a>)
-        </p>
-
-
-      <h3>Fake USAJMO 2020 P6</h3>
-      <div class=problem-box>
-          Let \(\triangle ABC\) be a triangle. Points \(D\), \(E\), and \(F\) are placed on sides \(\overline{BC}\), \(\overline{CA}\), and \(\overline{AB}\) respectively such that \(EF\parallel BC\). The line \(DE\) meets the circumcircle of \(\triangle ADC\) again at \(X\ne D\). Similarly, the line \(DF\) meets the circumcircle of \(\triangle ADB\) again at \(Y\ne D\). If \(D_1\) is the reflection of \(D\) across the midpoint of \(\overline{BC}\), prove that the four points \(D\), \(D_1\), \(X\), and \(Y\) lie on a circle.
-        </div>
-        <p>(<a href="https://artofproblemsolving.com/community/c6h2078506p14933611">AoPS</a>)
-        (<a href="https://artofproblemsolving.com/community/c594864h2043263">Contest Announcement</a>)
-        </p>
-
-      <h3 class="starred">Fake USAMO 2020 P3</h3>
-      <div class=problem-box>
-        Let \(\triangle ABC\) be a scalene triangle with circumcenter \(O\), incenter \(I\), and incircle \(\omega\). Let \(\omega\) touch the sides \(\overline{BC}\), \(\overline{CA}\), and \(\overline{AB}\) at points \(D\), \(E\), and \(F\) respectively. Let \(T\) be the projection of \(D\) to \(\overline{EF}\). The line \(AT\) intersects the circumcircle of \(\triangle ABC\) again at point \(X\ne A\). The circumcircles of \(\triangle AEX\) and \(\triangle AFX\) intersect \(\omega\) again at points \(P\ne E\) and \(Q\ne F\) respectively. Prove that the lines \(EQ\), \(FP\), and \(OI\) are concurrent.
+      <div class="tags-category",  id="diff-tags">Difficulty: 
+        <button class="tag-toggle" aria-pressed="false" data-diff="0.5">sub IMO</button>
+        <button class="tag-toggle" aria-pressed="false" data-diff="1">IMO 1</button>
+        <button class="tag-toggle" aria-pressed="false" data-diff="1.5">IMO 1.5</button>
+        <button class="tag-toggle" aria-pressed="false" data-diff="2">IMO 2</button>
+        <button class="tag-toggle" aria-pressed="false" data-diff="2.5">IMO 2.5</button>
+        <button class="tag-toggle" aria-pressed="false" data-diff="3">IMO 3</button>
       </div>
-      <p>(<a href="https://artofproblemsolving.com/community/c6h2078499p14933583">AoPS</a>)
-      (<a href="https://artofproblemsolving.com/community/c594864h2043263">Contest Announcement</a>)
+      <div class="tags-category", id="contest-tags">Contest: </div>
+      <div class="tags-category", id="year-tags">Year: </div>
+      <div class="tags-category">Starred:
+      <button class="tag-toggle" aria-pressed="false", id="starred-yes">yes</button>
+      <button class="tag-toggle" aria-pressed="false", id="starred-no">no</button>
+      </div>
       </p>
 
-      <h3>Fake USAMO 2020 P5</h3>
-      <p><i>(with Jirayus Jinapong)</i></p>
-      <div class=problem-box>
-        Determine all unbounded functions \(f:\mathbb{Z}\to\mathbb{Z}\) satisfying the following condition: for any arithmetic progression \(a,b,c\) of integers, some permutation of \(f(a),f(b),f(c)\) is an arithmetic progression.
-      </div>
-      <p>(<a href="https://artofproblemsolving.com/community/c6h2078497p14933576">AoPS</a>)
-      (<a href="https://artofproblemsolving.com/community/c594864h2043263">Contest Announcement</a>)
-      </p>
+      <div id="problems">
 
-      <h3 class="starred">Fake USAMO 2020 P6</h3>
-      <div class=problem-box>
-        Let \(\mathbb{Z}^+\) denote the set of all positive integers. Suppose that a function \(f:\mathbb{Z}^+\to\mathbb{Z}^+\) satisfies the following two conditions:
-        <ul>
-        <li>For any finite sequence \(a_1,a_2,\ldots,a_k\) of positive integers,
-        \[f(a_1)+f(a_2)+\ldots+f(a_k)\text{ divides }f(a_1+a_2+\ldots+a_k).\]
-        <li>There exists a positive integer \(m\) such that \(f(m)\ne mf(1)\).
-        </ul>
-        Prove that there exists a positive integer \(n\) such that
-        \[\gcd(f(n),f(n+1),f(n+2),\ldots)> 2020^n.\]
-      </div>
-      <p>(<a href="https://artofproblemsolving.com/community/c6h2078496p14933573">AoPS</a>)
-      (<a href="https://artofproblemsolving.com/community/c594864h2043263">Contest Announcement</a>)
-      </p>
-      
       </div>
     </div>
 

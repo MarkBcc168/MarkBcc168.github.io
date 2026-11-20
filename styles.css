@@ -238,6 +238,10 @@ div.paper-link{
     width: fit-content; 
     align-content:center;
 }
+div.tags-category{
+    margin-bottom: 0.2em;
+}
+
 div.problem-box {
     background-color: #ffffff;
     border: 2px solid #a00000;
@@ -286,6 +290,32 @@ div.homepage-photo{
   left: -1.5em;      /* sits in the left margin/gutter */
   top: 50%;
   transform: translateY(-50%);
+}
+
+.tag-toggle {
+  padding: 0.3rem 0.6rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: white;
+  color: #475569;
+  font: inherit;
+  cursor: pointer;
+  transition: background 150ms, color 150ms, border-color 150ms;
+}
+
+.tag-toggle:hover {
+  border-color: #2563eb;
+}
+
+.tag-toggle[aria-pressed="true"] {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: white;
+}
+
+.tag-toggle:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
 }
 
 @media (max-width: 810px) {
