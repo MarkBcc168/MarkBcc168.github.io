@@ -131,10 +131,8 @@ class Accordion {
   }
 }
 
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    //create hash link
+function setup_content() {
+//create hash link
     let headerElements = document.querySelectorAll("h1, h2, h3, h4, h5, h6, div.paper-title");
     for(let elem of headerElements){
         if(elem.id == "no-hash"){
@@ -164,9 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector(this.getAttribute('href')).scrollIntoView({
             behavior: 'smooth'
         });
+      });
     });
-});
-});
+}
+
 
 
 
