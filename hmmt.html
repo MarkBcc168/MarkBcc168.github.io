@@ -30,7 +30,7 @@
           problem_div.dataset.tournament = problem.tournament;
           problem_div.dataset.round = 
             ((problem.round==="Team") ? problem.tournament.substring(0,3) + " " :  "") 
-              + problem.round ?? ((problem.tournament==="HMIC")?"HMIC":"");
+              + (problem.round ?? ((problem.tournament==="HMIC")?"HMIC":""));
           problem_div.dataset.year = problem.year;
           problem_div.dataset.starred = problem.starred ?? "false";
           problem_div.dataset.subject = problem.subject;
@@ -57,12 +57,27 @@
           statement_div.innerHTML = problem.statement;
           problem_div.append(statement_div);
           problem_div.innerHTML += "<p>";
-
-          const links = Object.entries(problem.links ?? {});
-          for(const link of links){
-            problem_div.innerHTML += `(<a href=${link[1]}>${link[0]}</a>) `;
-          }
-          problem_div.innerHTML += "</p>";
+          const tournament_to_url = {
+            "November": "nov",
+            "February": "feb",
+            "HMIC" : "hmic"
+          };
+          const round_to_url = {
+            "General": "/gen",
+            "Theme" : "/thm",
+            "Alg/NT" : "/algnt",
+            "Combo" : "/combo",
+            "Geo" : "/geo",
+            "Team": "/team",
+            "Guts" : "/guts",
+          };
+          let url = "(<a href=https://hmmt-archive.s3.amazonaws.com/tournaments/";
+          url +=  String(problem.year) + "/";
+          url +=  tournament_to_url[problem.tournament];
+          url +=  round_to_url[problem.round] ?? "";
+          url +=  "/solutions.pdf>Official Sol</a>)";
+          url += "</p>";
+          problem_div.innerHTML += url;
 
           problems_div.append(problem_div);
         }
